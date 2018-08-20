@@ -33,7 +33,7 @@ Wind River Systems, Inc., Alameda, California
 --------------------------------------------------
 World leader in safe, secure, and reliable software embedded in billions of products, from Boeing jetliners to NASA Mars rovers.
 
-### Member Of Technical Staff, Engineering Services, 2011 - present
+### Member of Technical Staff, Engineering Services, 2011 - present
 
 Instrumental in creation of innovative electronic software delivery (ESD) platform providing modern DevOps pipeline for completely re-engineered versions of Wind River's two most important products, VxWorks and Wind River Linux; supplied "big data" business intelligence to multiple internal customers, including analysis pertaining to millions of dollars in revenue recognition.
 
