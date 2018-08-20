@@ -1,17 +1,13 @@
-% Michael J. Krueger
+Michael J. Krueger
+==================================================
+<https://www.linkedin.com/in/michael-j-krueger/>
 
-> __Application and System Software Developer__
-
-> <https://www.linkedin.com/in/michael-j-krueger/>
-
-----------------------------------------
-
-> Software developer with the skills, focus, discipline, and attention to detail it takes to create products that exceed expectations and are a pleasure to use.
-
-----------------------------------------
+Application and System Software Developer
+--------------------------------------------------
+Software developer with the skills, focus, discipline, and attention to detail it takes to create products that exceed expectations and are a pleasure to use.
 
 Software Development Skills
-----------------------------------------
+==================================================
 * Languages: Java, C, C++, Python, Scala, JavaScript.
 * Web frameworks and libraries: Play Framework, Spark Java Framework, jQuery.
 * Real-time operating systems (RTOSes): VxWorks.
@@ -24,19 +20,20 @@ Software Development Skills
   Grafana.
 
 Other Technical Skills
-----------------------------------------
+==================================================
 * In-depth research and analysis.
 * Technical writing, speech, and other communication skills, including written and spoken German.
 * Advanced physics, mathematics, statistics, and experimental methods, including numerical methods for calculations, simulations, data analysis, and image processing.
 * Analog and digital electronics (including circuit design, construction, troubleshooting, and repair) in data acquisition, interfacing, instrument control, and single-board computer and controller applications.
 
 Experience
-------------------------------------------------
-### Wind River Systems, Inc., Alameda, California
+==================================================
 
+Wind River Systems, Inc., Alameda, California
+--------------------------------------------------
 World leader in safe, secure, and reliable software embedded in billions of products, from Boeing jetliners to NASA Mars rovers.
 
-#### Member Of Technical Staff, Engineering Services, 2011--present
+### Member Of Technical Staff, Engineering Services, 2011 - present
 
 Instrumental in creation of innovative electronic software delivery (ESD) platform providing modern DevOps pipeline for completely re-engineered versions of Wind River's two most important products, VxWorks and Wind River Linux; supplied "big data" business intelligence to multiple internal customers, including analysis pertaining to millions of dollars in revenue recognition.
 
@@ -54,7 +51,7 @@ Instrumental in creation of innovative electronic software delivery (ESD) platfo
 * Performed significant DevOps work for major product releases and projects, including HTTP microservice in Java to support new Git-based delivery mechanism for Wind River Linux 9.
 * Established, documented, and promoted DevOps policies and plans.
 
-#### Member of Technical Staff, Release Engineering/Engineering Tools, 2005--2011
+### Member of Technical Staff, Release Engineering/Engineering Tools, 2005 - 2011
 
 Supported Wind River's strategic pivot toward Linux and open-source tools through extensive release engineering work; boosted engineering productivity through development and support of product definition, manufacturing, CM, and bug tracking tools.
 
@@ -64,7 +61,7 @@ Supported Wind River's strategic pivot toward Linux and open-source tools throug
 * Streamlined delivery pipelines for VxWorks market-specific platforms and Wind River Linux to support more frequent and reliable lightweight releases.
 * Continued types of release engineering work undertaken as Senior Software Development Engineer.
 
-#### Senior Software Development Engineer, Release Engineering, 2003--2005
+### Senior Software Development Engineer, Release Engineering, 2003 - 2005
 
 Enabled a fundamental shift in Wind River's business model through release engineering support of new market-specific platforms and an extensive update of the company's flagship, the VxWorks RTOS.
 
@@ -72,7 +69,7 @@ Enabled a fundamental shift in Wind River's business model through release engin
 * Focused release engineering (including CM and build) efforts for major product releases and projects on support for new platform-based business model.
 * Established, documented, and promoted policies and plans for all stages of product life cycle.
 
-#### Senior Software Development Engineer, Server Products, 2001--2003
+### Senior Software Development Engineer, Server Products, 2001 - 2003
 
 Worked in the startup atmosphere of the Server Products Group to bring innovative network acceleration products to market quickly.
 
@@ -85,12 +82,12 @@ Worked in the startup atmosphere of the Server Products Group to bring innovativ
 * Performed release engineering (including CM and build) for major product releases and projects.
 
 Education
-------------------------------------------------
+==================================================
 * Ph.D., physics, University of Minnesota, Minneapolis, Minnesota.
 * B.A., physics, Grinnell College, Grinnell, Iowa.
 
-----
+------------------------------------------
 
-> Preferred location: San Francisco Bay Area
+Preferred location: San Francisco Bay Area
 
-> Last modified: August 2018
+Last modified: August 2018
