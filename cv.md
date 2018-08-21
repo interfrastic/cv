@@ -1,13 +1,13 @@
 Michael J. Krueger
-==================================================
+============================================================
 <https://www.linkedin.com/in/michael-j-krueger/>
 
 Application and System Software Developer
---------------------------------------------------
+------------------------------------------------------------
 Software developer with the skills, focus, discipline, and attention to detail it takes to create products that exceed expectations and are a pleasure to use.
 
 Software Development Skills
-==================================================
+============================================================
 * Languages: Java, C, C++, Python, Scala, JavaScript.
 * Web frameworks and libraries: Play Framework, Spark Java Framework, jQuery.
 * Real-time operating systems (RTOSes): VxWorks.
@@ -20,17 +20,17 @@ Software Development Skills
   Grafana.
 
 Other Technical Skills
-==================================================
+============================================================
 * In-depth research and analysis.
 * Technical writing, speech, and other communication skills, including written and spoken German.
 * Advanced physics, mathematics, statistics, and experimental methods, including numerical methods for calculations, simulations, data analysis, and image processing.
 * Analog and digital electronics (including circuit design, construction, troubleshooting, and repair) in data acquisition, interfacing, instrument control, and single-board computer and controller applications.
 
 Experience
-==================================================
+============================================================
 
 Wind River Systems, Inc., Alameda, California
---------------------------------------------------
+------------------------------------------------------------
 World leader in safe, secure, and reliable software embedded in billions of products, from Boeing jetliners to NASA Mars rovers.
 
 ### Member of Technical Staff, Engineering Services, 2011 - present
@@ -82,11 +82,11 @@ Worked in the startup atmosphere of the Server Products Group to bring innovativ
 * Performed release engineering (including CM and build) for major product releases and projects.
 
 Education
-==================================================
+============================================================
 * Ph.D., physics, University of Minnesota, Minneapolis, Minnesota.
 * B.A., physics, Grinnell College, Grinnell, Iowa.
 
-------------------------------------------
+----------------------------------------------------
 
 Preferred location: San Francisco Bay Area
 
