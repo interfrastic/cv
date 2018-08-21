@@ -7,11 +7,15 @@
 
 # Supported targets.
 
-targets = cv.html cv.pdf cv.tex
+targets := cv.html cv.pdf cv.tex
 
 # Intermediate files that should be deleted automatically after the build.
 
-intermediates = cv.munged.md
+intermediates := cv.munged.md
+
+# Docker volume
+
+pandoc := docker run --volume='$(shell pwd):/source' jagregory/pandoc
 
 # Build all supported targets.
 
@@ -27,21 +31,24 @@ clean :
 # Generate an HTML 5 document from a LaTeX document.
 
 %.html : %.tex
-	docker run -v $(shell pwd):/source jagregory/pandoc \
-	-f latex -t html5 $< -o $@
+	$(pandoc) \
+	--include-in-header=include/header.html \
+	--from=latex --to=html5 --output=$@ $<
 
 # Generate a PDF document from a LaTeX document.
 
 %.pdf : %.tex
-	docker run -v $(shell pwd):/source jagregory/pandoc \
-	-V geometry:margin=1in -f latex $< -o $@
+	$(pandoc) \
+	--variable='geometry:margin=1in' \
+	--include-in-header=include/header.tex \
+	--from=latex --output=$@ $<
 
 # Generate a LaTeX document from an intermediate Markdown file containing the
 # expected representations of en and em dashes.
 
 %.tex : %.munged.md
-	docker run -v $(shell pwd):/source jagregory/pandoc \
-	-f markdown -t latex $< -o $@
+	$(pandoc) \
+	--from=markdown --to=latex --output=$@ $<
 
 # Generate an intermediate Markdown document for processing into a LaTeX
 # document, transforming the ASCII representations " - " and "--" of en and em

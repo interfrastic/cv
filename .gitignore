@@ -1,4 +1,5 @@
-*.html
-*.munged.md
-*.pdf
-*.tex
+/*.html
+/*.log
+/*.munged.*
+/*.pdf
+/*.tex
