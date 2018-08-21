@@ -13,7 +13,8 @@ targets := cv.html cv.pdf cv.tex
 
 intermediates := cv.munged.md
 
-# Docker volume
+# Command to run Pandoc in a Docker container, mounting a Docker volume in order
+# to allow access to files in the current directories through relative paths.
 #
 # Note that we use $(shell pwd) instead of the more efficient $(CURDIR) for
 # compatibility with the Windows Git Bash environment; this formulation
@@ -35,24 +36,25 @@ all : $(targets)
 clean :
 	-rm -f $(targets) $(intermediates)
 
-# Generate an HTML 5 document from a LaTeX document.
+# Generate an HTML 5 document from a LaTeX document and a generic HTML header
+# that specifies formatting options like the default typeface style.
 
-cv.html : cv.tex include/header.html
+%.html : %.tex include/html
 	$(pandoc) \
-	--include-in-header=include/header.html \
+	--include-in-header=$(word 2,$^) \
 	--from=latex --to=html5 --output=$@ $<
 
-# Generate a PDF document from a LaTeX document.
+# Generate a PDF document from a LaTeX document and a generic LaTeX header that
+# specifies formatting options like the margins and default typeface style.
 
-cv.pdf : cv.tex include/header.tex
+%.pdf : %.tex include/tex
 	$(pandoc) \
-	--include-in-header=include/header.tex \
+	--include-in-header=$(word 2,$^) \
 	--from=latex --output=$@ $<
 
-# Generate a LaTeX document from an intermediate Markdown file containing the
-# expected representations of en and em dashes.
+# Generate a LaTeX document from an intermediate Markdown file.
 
-cv.tex : cv.munged.md
+%.tex : %.munged.md
 	$(pandoc) \
 	--from=markdown --to=latex --output=$@ $<
 
@@ -60,5 +62,5 @@ cv.tex : cv.munged.md
 # document, transforming the ASCII representations " - " and "--" of en and em
 # dashes, respectively, into the "--" and "---" expected by LaTeX.
 
-cv.munged.md : cv.md
+%.munged.md : %.md
 	sed -E -e 's/\b--\b/---/g;s/\b - \b/--/g' $< > $@
