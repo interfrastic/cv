@@ -14,8 +14,15 @@ targets := cv.html cv.pdf cv.tex
 intermediates := cv.munged.md
 
 # Docker volume
+#
+# Note that we use $(shell pwd) instead of the more efficient $(CURDIR) for
+# compatibility with the Windows Git Bash environment; this formulation
+# produces an absolute path without a colon after drive the letter, preventing
+# errors like this:
+#
+# docker: Error response from daemon: invalid mode: /source.
 
-pandoc := docker run --volume='$(shell pwd):/source' jagregory/pandoc
+pandoc := docker run --volume=$(shell pwd):/source jagregory/pandoc
 
 # Build all supported targets.
 
@@ -30,23 +37,22 @@ clean :
 
 # Generate an HTML 5 document from a LaTeX document.
 
-%.html : %.tex
+cv.html : cv.tex include/header.html
 	$(pandoc) \
 	--include-in-header=include/header.html \
 	--from=latex --to=html5 --output=$@ $<
 
 # Generate a PDF document from a LaTeX document.
 
-%.pdf : %.tex
+cv.pdf : cv.tex include/header.tex
 	$(pandoc) \
-	--variable='geometry:margin=1in' \
 	--include-in-header=include/header.tex \
 	--from=latex --output=$@ $<
 
 # Generate a LaTeX document from an intermediate Markdown file containing the
 # expected representations of en and em dashes.
 
-%.tex : %.munged.md
+cv.tex : cv.munged.md
 	$(pandoc) \
 	--from=markdown --to=latex --output=$@ $<
 
@@ -54,5 +60,5 @@ clean :
 # document, transforming the ASCII representations " - " and "--" of en and em
 # dashes, respectively, into the "--" and "---" expected by LaTeX.
 
-%.munged.md : %.md
+cv.munged.md : cv.md
 	sed -E -e 's/\b--\b/---/g;s/\b - \b/--/g' $< > $@
