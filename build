@@ -1,0 +1,87 @@
+#!/bin/sh -evx
+
+# Support generation of HTML and PDF versions of a single CV in Markdown
+# format, using LaTeX as an intermediate format.
+#
+# Inspired by Mark Szepieniec's project, "The Markdown Resume":
+#
+# https://mszep.github.io/pandoc_resume/
+
+# Filename prefix of master input file, in Markdown format.
+
+basename='cv'
+
+# Pattern in the CV to be replaced with full contact information, if available.
+
+contact_search='^<https://www[.]linkedin[.]com/.*>$'
+
+# Optional file containing full contact information.
+
+contact_replace='include/contact.md'
+
+# String of sed commands for transforming the ASCII representations " - " and
+# "--" of en and em dashes, respectively, into the "--" and "---" expected by
+# LaTeX.
+
+dash_transform='s|\b--\b|---|g;s|\b - \b|--|g'
+
+# Master input file, in Markdown format.
+
+input_md="$basename.md"
+
+# Intermediate file for handling Markdown formatting issues and full contact
+# information.
+
+munged_md="$basename.munged.md"
+
+# Command to run Pandoc in a Docker container, mounting a Docker volume in order
+# to allow access to files in the current directories through relative paths.
+# The MSYS_NO_PATHCONV variable is set to allow proper operation in the Windows
+# Git Bash environment.
+
+pandoc="MSYS_NO_PATHCONV=1 docker run --volume=`pwd`:/source jagregory/pandoc"
+
+# HTML, PDF, and LaTeX output documents.
+
+output_html="$basename.html"
+output_pdf="$basename.pdf"
+output_tex="$basename.tex"
+
+# Generic HTML header specifying formatting options like the default typeface
+# style.
+
+header_html='include/header.html'
+
+# Generic LaTeX header specifying formatting options like like the margins and
+# the default typeface style.
+
+header_tex='include/header.tex'
+
+# Generate intermediate Markdown file for processing into LaTeX document,
+# transforming ASCII representations of dashes and adding full contact
+# information, if available.
+
+if [ -r "$contact_replace" ]; then
+    sed "$dash_transform;\|$contact_search|{r $contact_replace
+        d;}" "$input_md" > "$munged_md"
+else
+    sed "$dash_transform" "$input_md" > "$munged_md"
+fi
+
+# Generate LaTeX document from intermediate Markdown file.
+
+eval $pandoc --from='markdown' --to='latex' --output="$output_tex" "$munged_md"
+
+# Remove intermediate file.
+
+rm -f "$munged_md"
+
+# Generate HTML 5 document from LaTeX document and generic HTML header.
+
+eval $pandoc --include-in-header="$header_html" --from='latex' --to='html5' \
+    --output="$output_html" "$output_tex"
+
+# Generate PDF document from LaTeX document and generic LaTeX header.
+
+eval $pandoc --include-in-header="$header_tex" --from='latex' \
+    --output="$output_pdf" "$output_tex"

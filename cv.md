@@ -1,10 +1,10 @@
 Michael J. Krueger
 ============================================================
-<https://www.linkedin.com/in/michael-j-krueger/>
-
 Application and System Software Developer
 ------------------------------------------------------------
-Software developer with the skills, focus, discipline, and attention to detail it takes to create products that exceed expectations and are a pleasure to use.
+<https://www.linkedin.com/in/michael-j-krueger/>
+
+### Software developer with the skills, focus, discipline, and attention to detail it takes to create products that exceed expectations and are a pleasure to use.
 
 Software Development Skills
 ============================================================
