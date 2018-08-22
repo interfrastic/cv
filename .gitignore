@@ -1,6 +1,3 @@
-/*.html
 /*.log
-/*.munged.*
-/*.pdf
-/*.tex
 /include/contact.md
+/output

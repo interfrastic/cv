@@ -1,4 +1,4 @@
-#!/bin/sh -evx
+#!/bin/bash -evx
 
 # Support generation of HTML and PDF versions of a single CV in Markdown
 # format, using LaTeX as an intermediate format.
@@ -7,9 +7,40 @@
 #
 # https://mszep.github.io/pandoc_resume/
 
-# Filename prefix of master input file, in Markdown format.
+# Ensure that the current working directory is the script parent directory (the
+# directory in which this Bash script resides); this is necessary for proper
+# file access in the Docker container used for the conversions.
 
-basename='cv'
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+# Name of the directory in which to place generated files, relative to the
+# script parent directory.
+
+output_dir='output'
+
+# Name of the directory containing generic content for inclusion in generated
+# files, relative to the script parent directory.
+
+include_dir='include'
+
+# Filename prefix of master input file.
+
+input='cv'
+
+# Master input file, in Markdown format.
+
+input_md="$input.md"
+
+# Output file consisting of master input file with full contact information
+# added, if available, in Markdown format.
+
+output_md="$output_dir/$input_md"
+
+# HTML, PDF, and LaTeX output documents.
+
+output_html="$output_dir/$input.html"
+output_pdf="$output_dir/$input.pdf"
+output_tex="$output_dir/$input.tex"
 
 # Pattern in the CV to be replaced with full contact information, if available.
 
@@ -17,56 +48,56 @@ contact_search='^<https://www[.]linkedin[.]com/.*>$'
 
 # Optional file containing full contact information.
 
-contact_replace='include/contact.md'
+contact_replace="$include_dir/contact.md"
 
 # String of sed commands for transforming the ASCII representations " - " and
 # "--" of en and em dashes, respectively, into the "--" and "---" expected by
 # LaTeX.
 
-dash_transform='s|\b--\b|---|g;s|\b - \b|--|g'
+dash_munge='s|\b--\b|---|g;s|\b - \b|--|g'
 
-# Master input file, in Markdown format.
+# Intermediate file for dash transformation.
 
-input_md="$basename.md"
-
-# Intermediate file for handling Markdown formatting issues and full contact
-# information.
-
-munged_md="$basename.munged.md"
+munged_md="$output_dir/$input.munged.md"
 
 # Command to run Pandoc in a Docker container, mounting a Docker volume in order
-# to allow access to files in the current directories through relative paths.
-# The MSYS_NO_PATHCONV variable is set to allow proper operation in the Windows
-# Git Bash environment.
+# to allow access to files in the current directory and its subdirectories.  The
+# MSYS_NO_PATHCONV variable is set to allow proper operation in the Windows Git
+# Bash environment.
 
-pandoc="MSYS_NO_PATHCONV=1 docker run --volume=`pwd`:/source jagregory/pandoc"
-
-# HTML, PDF, and LaTeX output documents.
-
-output_html="$basename.html"
-output_pdf="$basename.pdf"
-output_tex="$basename.tex"
+pandoc="MSYS_NO_PATHCONV=1 docker run --volume='$PWD:/source' jagregory/pandoc"
 
 # Generic HTML header specifying formatting options like the default typeface
 # style.
 
-header_html='include/header.html'
+header_html="$include_dir/header.html"
 
 # Generic LaTeX header specifying formatting options like like the margins and
 # the default typeface style.
 
-header_tex='include/header.tex'
+header_tex="$include_dir/header.tex"
 
-# Generate intermediate Markdown file for processing into LaTeX document,
-# transforming ASCII representations of dashes and adding full contact
-# information, if available.
+# Create the output directory if it doesn't already exist.
+
+mkdir -p "$output_dir"
+
+# Remove output and intermediate files, if present, to ensure a clean build.
+
+rm -f "$output_html" "$output_md" "$output_pdf" "$output_tex" "$munged_md"
+
+# Generate final Markdown file with full contact information, if available.
 
 if [ -r "$contact_replace" ]; then
-    sed "$dash_transform;\|$contact_search|{r $contact_replace
-        d;}" "$input_md" > "$munged_md"
+    sed "\|$contact_search|{r $contact_replace
+        d;}" "$input_md" > "$output_md"
 else
-    sed "$dash_transform" "$input_md" > "$munged_md"
+    cp "$input_md" "$output_md"
 fi
+
+# Generate intermediate Markdown file for processing into LaTeX document,
+# transforming ASCII representations of dashes.
+
+sed "$dash_munge" "$output_md" > "$munged_md"
 
 # Generate LaTeX document from intermediate Markdown file.
 
