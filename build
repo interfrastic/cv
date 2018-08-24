@@ -36,10 +36,12 @@ input_md="$input.md"
 
 output_md="$output_dir/$input_md"
 
-# HTML, PDF, and LaTeX output documents.
+# Microsoft Word, HTML, PDF, RTF, and LaTeX output documents.
 
+output_docx="$output_dir/$input.docx"
 output_html="$output_dir/$input.html"
 output_pdf="$output_dir/$input.pdf"
+output_rtf="$output_dir/$input.rtf"
 output_tex="$output_dir/$input.tex"
 
 # Pattern in the CV to be replaced with full contact information, if available.
@@ -52,8 +54,9 @@ contact_replace="$include_dir/contact.md"
 
 # String of sed commands for transforming the ASCII representations " - " and
 # "--" of en and em dashes, respectively, into the "--" and "---" expected by
-# LaTeX.  Note that word boundaries ("\b") behave differenty in the BSD (MacOs)
-# and GNU (Linux) versions of sed, so we match non-hyphen characters instead.
+# LaTeX.  Note that word boundaries ("\b") behave differently in the BSD
+# (MacOs) and GNU (Linux) versions of sed, so we match non-hyphen characters
+# instead.
 
 dash_munge='s|\([^-]\)--\([^-]\)|\1---\2|g;s|\([^-]\) - \([^-]\)|\1--\2|g'
 
@@ -61,12 +64,15 @@ dash_munge='s|\([^-]\)--\([^-]\)|\1---\2|g;s|\([^-]\) - \([^-]\)|\1--\2|g'
 
 munged_md="$output_dir/$input.munged.md"
 
-# Command to run Pandoc in a Docker container, mounting a Docker volume in order
-# to allow access to files in the current directory and its subdirectories.  The
-# MSYS_NO_PATHCONV variable is set to allow proper operation in the Windows Git
-# Bash environment.
+# Command to run Pandoc in a Docker container, mounting a Docker volume in
+# order to allow access to files in the current directory and its
+# subdirectories.  The output file is a standalone document, not a fragment,
+# and "smart" processing of apostrophes, quotation marks, hyphens, and dashes
+# is enabled.  The MSYS_NO_PATHCONV variable is set to allow proper operation
+# in the Windows Git Bash environment.
 
-pandoc="MSYS_NO_PATHCONV=1 docker run --volume='$PWD:/source' jagregory/pandoc"
+pandoc="MSYS_NO_PATHCONV=1 docker run --volume='$PWD:/source' \
+jagregory/pandoc --standalone --smart"
 
 # Generic HTML header specifying formatting options like the default typeface
 # style.
@@ -78,13 +84,19 @@ header_html="$include_dir/header.html"
 
 header_tex="$include_dir/header.tex"
 
+# Generic Microsoft Word reference document specifying formatting options like
+# the default typeface style.
+
+reference_docx="$include_dir/reference.docx"
+
 # Create the output directory if it doesn't already exist.
 
 mkdir -p "$output_dir"
 
 # Remove output and intermediate files, if present, to ensure a clean build.
 
-rm -f "$output_html" "$output_md" "$output_pdf" "$output_tex" "$munged_md"
+rm -f "$munged_md" "$output_docx" "$output_html" "$output_md" "$output_pdf" \
+    "$output_rtf" "$output_tex"
 
 # Generate final Markdown file with full contact information, if available.
 
@@ -100,20 +112,36 @@ fi
 
 sed "$dash_munge" "$output_md" > "$munged_md"
 
+# Generate Microsoft Word document intermediate Markdown file and generic
+# reference document.
+
+eval $pandoc --reference-doc="$reference_docx"  \
+    --from='markdown' --to='docx'  --output="$output_docx" "$munged_md"
+
+# Generate HTML document intermediate Markdown file and generic HTML header.
+
+eval $pandoc --include-in-header="$header_html" \
+    --from='markdown' --to='html5' --output="$output_html" "$munged_md"
+
+# Generate PDF document from intermediate Markdown file and generic LaTeX
+# header; as documented here, the output format must be specified as "latex"
+# instead of "pdf":
+#
+# https://hub.docker.com/r/jagregory/pandoc/
+
+eval $pandoc --include-in-header="$header_tex"  \
+    --from='markdown' --to='latex' --output="$output_pdf"  "$munged_md"
+
+# Generate RTF document from intermediate Markdown file.
+
+eval $pandoc                                    \
+    --from='markdown' --to='rtf'   --output="$output_rtf"  "$munged_md"
+
 # Generate LaTeX document from intermediate Markdown file.
 
-eval $pandoc --from='markdown' --to='latex' --output="$output_tex" "$munged_md"
+eval $pandoc                                    \
+    --from='markdown' --to='latex' --output="$output_tex"  "$munged_md"
 
 # Remove intermediate file.
 
 rm -f "$munged_md"
-
-# Generate HTML 5 document from LaTeX document and generic HTML header.
-
-eval $pandoc --include-in-header="$header_html" --from='latex' --to='html5' \
-    --output="$output_html" "$output_tex"
-
-# Generate PDF document from LaTeX document and generic LaTeX header.
-
-eval $pandoc --include-in-header="$header_tex" --from='latex' \
-    --output="$output_pdf" "$output_tex"
