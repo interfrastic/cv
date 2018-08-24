@@ -52,9 +52,10 @@ contact_replace="$include_dir/contact.md"
 
 # String of sed commands for transforming the ASCII representations " - " and
 # "--" of en and em dashes, respectively, into the "--" and "---" expected by
-# LaTeX.
+# LaTeX.  Note that word boundaries ("\b") behave differenty in the BSD (MacOs)
+# and GNU (Linux) versions of sed, so we match non-hyphen characters instead.
 
-dash_munge='s|\b--\b|---|g;s|\b - \b|--|g'
+dash_munge='s|\([^-]\)--\([^-]\)|\1---\2|g;s|\([^-]\) - \([^-]\)|\1--\2|g'
 
 # Intermediate file for dash transformation.
 
