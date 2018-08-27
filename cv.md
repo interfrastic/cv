@@ -57,7 +57,7 @@ Supported Wind River's strategic pivot toward Linux and open-source tools throug
 
 * Fulfilled rapidly changing business needs of Wind River Linux through commercial product restructuring and data-driven automation of manufacturing process using Perl and Make.
 * Managed design, Perl implementation, testing, maintenance, and support of ClearQuest bug tracker integration with ClearCase, CVS, and Git CM systems; all systems stable and reliable throughout six-year lifespan.
-* Lead ClearQuest bug tracker e-mail interface project; Perl implementation stable and reliable throughout seven-year lifespan.
+* Led ClearQuest bug tracker e-mail interface project; Perl implementation stable and reliable throughout seven-year lifespan.
 * Streamlined delivery pipelines for VxWorks market-specific platforms and Wind River Linux to support more frequent and reliable lightweight releases.
 * Continued types of release engineering work undertaken as Senior Software Development Engineer.
 
