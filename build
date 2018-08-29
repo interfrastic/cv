@@ -1,7 +1,7 @@
 #!/bin/bash -evx
 
-# Support generation of HTML and PDF versions of a single CV in Markdown
-# format, using LaTeX as an intermediate format.
+# Support generation of HTML, PDF, and other versions of a single master CV,
+# which is kept under source control in Markdown format.
 #
 # Inspired by Mark Szepieniec's project, "The Markdown Resume":
 #
